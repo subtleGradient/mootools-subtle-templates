@@ -27,11 +27,11 @@ var Builder = {
 	scripts: {
 		source: {
 			'../Demos': ['mootools'],
-			'Plugins' : ['PluginName']
+			'Plugins' : ['SubtleTemplate']
 		},
 
 		specs: {
-			'Plugins' : ['PluginName']
+			'Plugins' : ['SubtleTemplate']
 		}
 	},
 

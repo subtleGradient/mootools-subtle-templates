@@ -1,5 +1,5 @@
 /*
-Script: PluginName.js
+Script: SubtleTemplate.js
 	MooTools - My Object Oriented JavaScript Tools.
 
 License:
@@ -9,7 +9,7 @@ Copyright:
 	Copyright (c) 2006-2007 [copyright holders](http://).
 
 */
-var PluginName = new Class({
+var SubtleTemplate = new Class({
 	
 	Implements: [Options, Events],
 	
