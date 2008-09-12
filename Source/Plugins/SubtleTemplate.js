@@ -10,12 +10,15 @@ Copyright:
 
 */
 var SubtleTemplate = function(options){
-	
 	options = $merge({
 		element:null,
 		data:{}
 	}, options);
 	
+	if(!options.element) return;
+	
+	options.element = $(options.element);
+	options.tag = options.element.get('tag');
 	options.dad = new Element('div').adopt( options.element );
 	
 	var Template = new Class({
@@ -26,6 +29,7 @@ var SubtleTemplate = function(options){
 		
 		initialize: function(data, ops){
 			this.setOptions(ops);
+			try{console.log( this.options )}catch(e){};
 			this.populate(data);
 			
 			this.fireEvent("initialize");
@@ -40,7 +44,7 @@ var SubtleTemplate = function(options){
 				'html': this.options.dad.get('html').substitute( this.options.data )
 			});
 			
-			this.element = dad.removeChild(dad.childNodes[0]);
+			this.element = dad.getChildren();
 			
 			if(this.options.data.id)
 				this.element.set('id', this.options.data);
@@ -58,6 +62,7 @@ var SubtleTemplate = function(options){
 			
 			if(old_element) old_element.destroy();
 			
+			try{console.log( this.element )}catch(e){};
 			this.fireEvent("populate");
 			return this;
 		},

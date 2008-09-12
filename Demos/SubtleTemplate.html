@@ -17,13 +17,11 @@
 </div>
 
 <table>
-	<tbody>
-		<tr id="template2">
-			<td><b>{data1}</b></td>
-			<td><i>{data2}</i></td>
-			<td><u>{data3}</u></td>
-		</tr>
-	</tbody>
+	<tr id="template2">
+		<td><b>{data1}</b></td>
+		<td><i>{data2}</i></td>
+		<td><u>{data3}</u></td>
+	</tr>
 </table>
 
 
@@ -31,7 +29,7 @@
 <script src="../Source/Plugins/SubtleTemplate.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript" charset="utf-8">
 
-var MyDiv = new SubtleTemplate({ element:'template' });
+var MyDiv = new SubtleTemplate({ element:$('template') });
 
 div1 = new MyDiv({
 	"data1": "Lorem",
@@ -48,6 +46,15 @@ var data = {
 var div2 = new MyDiv({ data1:'loading…' }).inject(document.body);
 
 setTimeout( function(){ div2.populate(data) }, 1000);
+
+var MyTr = new SubtleTemplate({ element:$('template2') });
+
+tr1 = new MyTr({
+	"data1": "Lorem",
+	"data2": "ipsum",
+	"data3": "dolor"
+});
+tr1.inject( $$('table')[0] );
 
 </script>
 </body>
