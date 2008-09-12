@@ -7,18 +7,47 @@
 </head>
 <body>
 
-<p>
-	Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-</p>
+
+<div id="template">
+	<ul>
+		<li><b>{data1}</b></li>
+		<li><i>{data2}</i></li>
+		<li><u>{data3}</u></li>
+	</ul>
+</div>
+
+<table>
+	<tbody>
+		<tr id="template2">
+			<td><b>{data1}</b></td>
+			<td><i>{data2}</i></td>
+			<td><u>{data3}</u></td>
+		</tr>
+	</tbody>
+</table>
+
 
 <script type="text/javascript" src="mootools.js"> </script>
-<script src="../Source/SubtleTemplate.js" type="text/javascript" charset="utf-8"></script>
+<script src="../Source/Plugins/SubtleTemplate.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript" charset="utf-8">
 
-var myThing = new SubtleTemplate({
-	option1: 1,
-	option8: true
-});
+var MyDiv = new SubtleTemplate({ element:'template' });
+
+div1 = new MyDiv({
+	"data1": "Lorem",
+	"data2": "ipsum",
+	"data3": "dolor"
+}).inject(document.body);
+
+
+var data = {
+	"data1": new Date(),
+	"data2": "green",
+	"data3": "blue"
+};
+var div2 = new MyDiv({ data1:'loading…' }).inject(document.body);
+
+setTimeout( function(){ div2.populate(data) }, 1000);
 
 </script>
 </body>
