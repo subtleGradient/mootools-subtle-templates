@@ -9,51 +9,78 @@ Copyright:
 	Copyright (c) 2006-2007 [Thomas Aylott](http://subtlegradient.com/).
 
 */
-var SubtleTemplate = function(options){
-	if(!options.element) return;
+var SubtleTemplate = new Class({
 	
-	options.element = $(options.element).dispose();
+	Implements: Options,
 	
-	options = $merge({
-		tag: options.element.get('tag'),
-		html: options.element.get('html'),
-		data:{}
-	}, options);
+	options:{
+		tag:     'div',
+		'class': '',
+		html:    '{html}',
+		data:    {}
+	},
 	
-	options.element = null;
+	/*
+		initialize
+		accepts elements or an object of options
+	*/
+	initialize:function(options){
+		if($type(options)=='element')
+			this.setElementOptions(options);
+		else
+			this.setOptions(options);
+		
+		this.template = new Class({ Extends:SubtleTemplate.Template });
+		
+		this.template.prototype.options = this.options;
+		return this.template;
+	},
 	
-	var Template = new Class({
+	setElementOptions: function(element){
+		if(!element) return this.fireEvent('error');
+		element = $(element);
 		
-		Implements: [Options, Events],
+		this.setOptions({
+			parent: element.parentNode ? $(element.parentNode) : null,
+			tag:    element.get('tag'),
+			'class':element.get('class'),
+			html:   element.get('html')
+		});
 		
-		options: options,
+		element.dispose();
+		element = null;
 		
-		initialize: function(data, ops){
-			this.setOptions(ops);
-			
-			this.populate(data);
-			
-			this.fireEvent("initialize");
-		},
-		
-		populate: function(data){
-			this.options.data = $merge(this.options.data, data);
-			
-			this.element = this.element || new Element(this.options.tag);
-			
-			this.element.set('html', this.options.html.substitute(this.options.data) );
-			
-			this.fireEvent("populate");
-			return this;
-		},
-		
-		inject: function(parent){
-			this.element.inject(parent);
-			this.fireEvent("inject");
-			return this;
-		}
-		
-	});
+		return this;
+	}
+});
+SubtleTemplate.Template = new Class({
 	
-	return Template;
-};
+	Implements: [Options, Events],
+	
+	initialize: function(data, options){
+		this.setOptions(options);
+		this.setOptions({ data:data });
+		
+		this.element = new Element(this.options.tag, { 'class': this.options['class'] });
+		this.populate(this.options.data);
+		
+		return this.fireEvent("initialize");
+	},
+	
+	populate: function(data, options){
+		this.setOptions(options);
+		this.setOptions({ data:data });
+		
+		this.element.set('html', this.options.html.substitute(this.options.data) );
+		this.element.set('id', this.options.data.id );
+		this.element.set('class', this.options.data['class'] );
+		
+		return this.fireEvent("populate");
+	},
+	
+	inject: function(parent){
+		this.element.inject( parent||this.options.parent );
+		return this.fireEvent("inject");
+	}
+	
+});

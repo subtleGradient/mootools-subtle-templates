@@ -9,6 +9,9 @@ License:
 describe('SubtleTemplate', {
 
 	'before all': function(){
+		new Element('div',{
+			html:''
+		})
 	},
 
 	'after all': function(){

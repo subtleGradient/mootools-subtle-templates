@@ -8,6 +8,9 @@
 <body>
 
 
+<div id="demo"></div>
+
+
 <div id="template">
 	<ul>
 		<li><b>{data1}</b></li>
@@ -29,59 +32,79 @@
 
 <script type="text/javascript" src="mootools.js"> </script>
 <script src="../Source/Plugins/SubtleTemplate.js" type="text/javascript" charset="utf-8"></script>
-<script type="text/javascript" charset="utf-8">
-
-var MyDiv = new SubtleTemplate({ element:$('template') });
-
-div1 = new MyDiv({
-	"data1": "Lorem",
-	"data2": "ipsum",
-	"data3": "dolor"
-}).inject(document.body);
 
 
-var data = {
-	"data1": new Date(),
-	"data2": "green",
-	"data3": "blue"
-};
-var div2 = new MyDiv({ data1:'loading…' }).inject(document.body);
+<!-- <h2>Demo1</h2> -->
+<!-- <p>Simple Usage</p> -->
+<script type="text/javascript" charset="utf-8"> window.addEvent('domready',function(){
 
-setTimeout( function(){ div2.populate(data) }, 1000);
+	MyDiv = new SubtleTemplate($('template'));
+	
+	var JSON = {
+		"data1": "Lorem",
+		"data2": "ipsum",
+		"data3": "dolor"
+	};
+	
+	div1 = new MyDiv( JSON ).inject($('demo'));
 
-var MyTr = new SubtleTemplate({ element:$('template2') });
-
-tr1 = new MyTr({
-	"data1": "Lorem",
-	"data2": "ipsum",
-	"data3": "dolor"
-});
-tr1.inject( $$('tbody')[0] );
-
-new MyTr({
-	"data1": "Lorem",
-	"data2": "ipsum",
-	"data3": "dolor"
-}).inject( $$('tbody')[0] );
-new MyTr({
-	"data1": "Lorem",
-	"data2": "ipsum",
-	"data3": "dolor"
-}).inject( $$('tbody')[0] );
-new MyTr({
-	"data1": "Lorem",
-	"data2": "ipsum",
-	"data3": "dolor"
-}).inject( $$('tbody')[0] );
-new MyTr({
-	"data1": "Lorem",
-	"data2": "ipsum",
-	"data3": "dolor"
-}).inject( $$('tbody')[0] );
+});</script>
 
 
-// SubtleTemplate=MyDiv=div1=data=div2=MyTr=tr1=null;
+<!-- <h3>Demo2</h3> -->
+<!-- <p>Update data later</p> -->
+<script type="text/javascript" charset="utf-8"> window.addEvent('domready',function(){
 
-</script>
+	var div2 = new MyDiv({ data1:'loading…' }).inject($('demo'));
+	setTimeout( function(){ 
+		div2.populate({
+			"data1": new Date(),
+			"data2": "green",
+			"data3": "blue"
+		}) 
+	}, 1000);
+
+});</script>
+
+
+<!-- <h3>Demo3</h3> -->
+<!-- <p>Works with table rows and stuff</p> -->
+<!-- <p>No need to explicitly define a parent<br />
+	it'll inject into the same parent as the template element by default
+</p> -->
+<script type="text/javascript" charset="utf-8"> window.addEvent('domready',function(){
+
+	var MyTr = new SubtleTemplate($('template2'));
+
+	tr1 = new MyTr({
+		"data1": "Created",
+		"data2": "First",
+		"data3": "but injected last"
+	});
+
+	new MyTr({
+		"data1": "Lorem",
+		"data2": "ipsum",
+		"data3": "dolor"
+	}).inject();
+	new MyTr({
+		"data1": "Lorem",
+		"data2": "ipsum",
+		"data3": "dolor"
+	}).inject();
+	new MyTr({
+		"data1": "Lorem",
+		"data2": "ipsum",
+		"data3": "dolor"
+	}).inject();
+	new MyTr({
+		"data1": "Created",
+		"data2": "Last",
+		"data3": "in source"
+	}).inject();
+
+	tr1.inject();
+
+});</script>
 </body>
 </html>
