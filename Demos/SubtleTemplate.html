@@ -8,26 +8,25 @@
 <body>
 
 
-<div id="demo"></div>
+<div id="demo">
+	<div id="template">
+		<ul>
+			<li><b>{data1}</b></li>
+			<li><i>{data2}</i></li>
+			<li><u>{data3}</u></li>
+		</ul>
+	</div>
 
-
-<div id="template">
-	<ul>
-		<li><b>{data1}</b></li>
-		<li><i>{data2}</i></li>
-		<li><u>{data3}</u></li>
-	</ul>
+	<table>
+		<tbody>
+			<tr id="template2">
+				<td><b>{data1}</b></td>
+				<td><i>{data2}</i></td>
+				<td><u>{data3}</u></td>
+			</tr>
+		</tbody>
+	</table>
 </div>
-
-<table>
-	<tbody>
-		<tr id="template2">
-			<td><b>{data1}</b></td>
-			<td><i>{data2}</i></td>
-			<td><u>{data3}</u></td>
-		</tr>
-	</tbody>
-</table>
 
 
 <script type="text/javascript" src="mootools.js"> </script>
@@ -63,6 +62,18 @@
 			"data3": "blue"
 		}) 
 	}, 1000);
+	
+	// Can handle periodically updating
+	var populate_i = 0;
+	var populate_p = (function(){
+		div2.populate({
+			"data1": new Date(),
+			"data2": populate_i++,
+			"data3": 'woot'
+		});
+		if(populate_i > 1000)
+			$clear(populate_p);
+	}).periodical(1);
 
 });</script>
 
