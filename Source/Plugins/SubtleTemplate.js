@@ -6,20 +6,21 @@ License:
 	MIT-style license.
 
 Copyright:
-	Copyright (c) 2006-2007 [copyright holders](http://).
+	Copyright (c) 2006-2007 [Thomas Aylott](http://subtlegradient.com/).
 
 */
 var SubtleTemplate = function(options){
+	if(!options.element) return;
+	
+	options.element = $(options.element).dispose();
+	
 	options = $merge({
-		element:null,
+		tag: options.element.get('tag'),
+		html: options.element.get('html'),
 		data:{}
 	}, options);
 	
-	if(!options.element) return;
-	
-	options.element = $(options.element);
-	options.tag = options.element.get('tag');
-	options.dad = new Element('div').adopt( options.element );
+	options.element = null;
 	
 	var Template = new Class({
 		
@@ -29,7 +30,7 @@ var SubtleTemplate = function(options){
 		
 		initialize: function(data, ops){
 			this.setOptions(ops);
-			try{console.log( this.options )}catch(e){};
+			
 			this.populate(data);
 			
 			this.fireEvent("initialize");
@@ -38,38 +39,16 @@ var SubtleTemplate = function(options){
 		populate: function(data){
 			this.options.data = $merge(this.options.data, data);
 			
-			if(this.element) var old_element = this.element;
+			this.element = this.element || new Element(this.options.tag);
 			
-			var dad = new Element('div',{
-				'html': this.options.dad.get('html').substitute( this.options.data )
-			});
+			this.element.set('html', this.options.html.substitute(this.options.data) );
 			
-			this.element = dad.getChildren();
-			
-			if(this.options.data.id)
-				this.element.set('id', this.options.data);
-			else
-				this.element.erase('id');
-			
-			
-			if(old_element && old_element.parentNode){
-				this.options.parent = old_element.parentNode;
-				this.element.inject(old_element, 'after');
-				
-			}else if(this.options.parent)
-				this.options.parent.adopt( this.element );
-			
-			
-			if(old_element) old_element.destroy();
-			
-			try{console.log( this.element )}catch(e){};
 			this.fireEvent("populate");
 			return this;
 		},
 		
 		inject: function(parent){
 			this.element.inject(parent);
-			this.options.parent = parent;
 			this.fireEvent("inject");
 			return this;
 		}
