@@ -20,6 +20,8 @@ var SubtleTemplate = new Class({
 		data:    {}
 	},
 	
+	kids:[],
+	
 	/*
 		initialize
 		accepts elements or an object of options
@@ -33,6 +35,7 @@ var SubtleTemplate = new Class({
 		this.template = new Class({ Extends:SubtleTemplate.Template });
 		
 		this.template.prototype.options = this.options;
+		this.template.prototype.dad = this;
 		return this.template;
 	},
 	
@@ -64,13 +67,27 @@ var SubtleTemplate = new Class({
 		element = null;
 		
 		return this;
+	},
+	
+	updateTemplate: function(fn){
+		if($type(fn) != 'function') return this;
+		var element = new Element(this.options.tag, { 'class': this.options['class'], html: this.options.html });
+		
+		fn.run(this,element);
+		this.setElementOptions(element);
+		
+		this.kids.each(function(kid){ kid.populate({}, this.options); },this);
+		
+		return this;
 	}
+	
 });
 SubtleTemplate.Template = new Class({
 	
 	Implements: [Options, Events],
 	
 	initialize: function(data, options){
+		this.dad.kids.push(this);
 		this.setOptions(options);
 		this.setOptions({ data:data });
 		
@@ -84,8 +101,8 @@ SubtleTemplate.Template = new Class({
 		this.setOptions(options);
 		this.setOptions({ data:data });
 		
-		this.element.set('html', this.options.html.substitute(this.options.data) );
-		this.element.set('id', this.options.data.id );
+		this.element.set('html',  this.options.html.substitute(this.options.data) );
+		this.element.set('id',    this.options.data.id );
 		this.element.set('class', this.options.data['class'] );
 		
 		return this.fireEvent("populate");

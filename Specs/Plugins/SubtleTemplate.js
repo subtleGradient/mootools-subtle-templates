@@ -75,5 +75,17 @@ describe('SubtleTemplate', {
 		fred.populate({ data1:'derf is not my name' });
 		value_of( fred.element.getElement('input').get('value') ).should_match( 'derf is not my name' );
 	}
+	,'should allow you to update the html of the template and rebuild everything': function(){
+		
+		var fred = new MyDiv({ data1:'fred' }).inject( demo );
+		value_of( fred.element.get('text') ).should_match( 'fred' );
+		
+		fred.dad.updateTemplate(function(templateClassInstance){
+			try{console.log( this )}catch(e){};
+			this.getElement('li').set('html','{data1}{data1}');
+		});
+		value_of( fred.element.get('text') ).should_match( 'fredfred' );
+		
+	}
 
 });
