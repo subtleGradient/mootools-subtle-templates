@@ -40,11 +40,24 @@ var SubtleTemplate = new Class({
 		if(!element) return this.fireEvent('error');
 		element = $(element);
 		
+		element.getElements('*').each(function(el){
+			// Edit this list to include 
+			// all attribute names whose value you may set in your html templates
+			// which you will then update to some value which contains a space
+			// 'id class name value for title alt src rel cite'.split(' ')
+			['abbr',  'above', 'accept', 'accesskey', 'action', 'align', 'alink', 'alt', 'archive', 'autostart', 'axis', 'background', 'balance', 'behavior', 'below', 'bgcolor', 'bgproperties', 'border', 'bordercolor', 'bordercolordark', 'bordercolorlight', 'bottommargin', 'cabbase', 'cellpadding', 'cellspacing', 'charset', 'checked', 'cite', 'class', 'classid', 'clear', 'clip', 'code', 'codebase', 'codetype', 'color', 'cols', 'colspan', 'compact', 'content', 'controls', 'coords', 'data', 'datapagesize', 'datetime', 'declare', 'defer', 'delay', 'dir', 'direction', 'disabled', 'dynsrc', 'enctype', 'face', 'for', 'frame', 'frameborder', 'framespacing', 'gutter', 'headers', 'height', 'hidden', 'href', 'hreflang', 'hspace', /*'http-equiv',*/ 'id', 'ismap', 'label', 'lang', 'language', 'left', 'leftmargin', 'link', 'longdesc', 'loop', 'lowsrc', 'marginheight', 'marginwidth', 'maxlength', 'mayscript', 'media', 'method', 'multiple', 'name', 'noexternaldata', 'noresize', 'noshade', 'nowrap', /*'onblur', 'onchange', 'onclick', 'ondblclick', 'onerror', 'onfocus', 'onkeydown', 'onkeypress', 'onkeyup', 'onload', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'onreset', 'onresize', 'onselect', 'onsubmit', 'onunload',*/ 'pagex', 'pagey', 'pointsize', 'readonly', 'rel', 'rev', 'rightmargin', 'rows', 'rowspan', 'rules', 'runat', 'scope', 'scrollamount', 'scrolldelay', 'scrolling', 'selected', 'shape', 'size', 'span', 'src', 'standby', 'start', 'style', 'summary', 'tabindex', 'target', 'text', 'title', 'top', 'topmargin', 'truespeed', 'type', 'usemap', 'valign', 'value', 'valuetype', 'visibility', 'vlink', 'volume', 'vspace', 'width', 'wrap', 'xmlns']
+			.each(function(property){try{
+				var val = el.getProperty(property);
+				if(val && $type(val)=='string')
+					el.setProperty(property, el.getProperty(property) + ' HACKED_FOR_IE');
+			}catch(e){};});
+		});
+		
 		this.setOptions({
 			parent: element.parentNode ? $(element.parentNode) : null,
 			tag:    element.get('tag'),
 			'class':element.get('class'),
-			html:   element.get('html')
+			html:   element.get('html').replace(/ ?HACKED_FOR_IE/g,'')
 		});
 		
 		element.dispose();

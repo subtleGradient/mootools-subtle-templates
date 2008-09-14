@@ -62,7 +62,7 @@ a {
 	top: 40px;
 	left: 0;
 	bottom: 0;
-	height: expression(document.body.clientHeight-40);
+/*	height: expression(document.body.clientHeight-40);*/
 }
 
 #log {
@@ -73,7 +73,7 @@ a {
 	overflow-y: auto;
 	overflow-x: hidden;
 	width: 70%;
-	height: expression(document.body.clientHeight-40);
+/*	height: expression(document.body.clientHeight-40);*/
 }
 
 span.spc {
