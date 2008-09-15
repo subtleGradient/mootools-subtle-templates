@@ -101,9 +101,13 @@ SubtleTemplate.Template = new Class({
 		this.setOptions(options);
 		this.setOptions({ data:data });
 		
-		this.element.set('html',  this.options.html.substitute(this.options.data) );
-		this.element.set('id',    this.options.data.id );
-		this.element.set('class', this.options.data['class'] );
+		try{console.log( this.options )}catch(e){};
+		
+		this.element.set({
+			'html': this.options.html.substitute(this.options.data),
+			'id':   this.options.data.id,
+			'class':this.options.data['class'] || this.options['class']
+		});
 		
 		return this.fireEvent("populate");
 	},

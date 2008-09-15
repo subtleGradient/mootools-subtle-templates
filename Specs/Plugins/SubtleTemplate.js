@@ -13,6 +13,7 @@ describe('SubtleTemplate', {
 		
 		template = new Element('div',{
 			id:'subtletemplate',
+			'class':'super duper',
 			html:'<ul>\
 					<li><b>{data1}</b></li>\
 					<li><i>{data2}</i></li>\
@@ -93,24 +94,55 @@ describe('SubtleTemplate', {
 	}
 
 	,'should allow you to update the html to any random tag, even a new one': function(){
+		var MyBlankDiv = new SubtleTemplate();
 		
-		var fred = new MyDiv({ data1:'fred' }).inject( demo );
+		var fred = new MyBlankDiv({ html:'fred' }).inject( demo );
 		value_of( fred.element.get('text') ).should_match( 'fred' );
-		value_of( fred.element.getElement('*').get('tag') ).should_be( 'ul' );
+		value_of( fred.element.getElement('*') ).should_be(null);
 		
-		var fred1 = new MyDiv({ data1:'fred1' }).inject( demo );
+		var fred1 = new MyBlankDiv({ html:'fred1' }).inject( demo );
 		value_of( fred1.element.get('text') ).should_match( 'fred1' );
-		value_of( fred1.element.getElement('*').get('tag') ).should_be( 'ul' );
+		value_of( fred1.element.getElement('*') ).should_be(null);
 		
-		MyDiv.updateTemplate(function(templateClassInstance){
-			return new Element('div',{html:'{data1}{data1}'})
+		fred.populate({
+			data1:'fred'
 		});
-		value_of( fred.element.getElement('*') ).should_be( null );
+		fred1.populate({
+			data1:'fred1'
+		});
+		
+		MyBlankDiv.updateTemplate(function(templateClassInstance){
+			return new Element('div',{html:'<p>{data1}{data1}</p>'})
+		});
+		value_of( fred.element.getElement('*').get('tag') ).should_be( 'p' );
 		value_of( fred.element.get('text') ).should_match( 'fredfred' );
 		
-		value_of( fred.element.getElement('*') ).should_be( null );
+		value_of( fred.element.getElement('*').get('tag') ).should_be( 'p' );
 		value_of( fred1.element.get('text') ).should_match( 'fred1fred1' );
 		
 	}
 
+	,'should be able to implement stuff on the template': function(){
+		
+		var MySuperDiv = new SubtleTemplate();
+		
+		my_div = new MySuperDiv({});
+		
+		MySuperDiv.implement({
+			something: 'something'
+		});
+		
+		value_of( new MySuperDiv({}).something ).should_be( 'something' );
+		value_of( my_div.something ).should_be( 'something' );
+		
+	}
+
+	,'should keep its class and id when used as a template': function(){
+		
+		var fred = new MyDiv({ data1:'fred' }).inject( demo );
+		value_of( fred.element.get('text') ).should_match( 'fred' );
+		
+		value_of( template.get('class') ).should_be( 'super duper' )
+		value_of( fred.element.get('class') ).should_be( 'super duper' )
+	}
 });
