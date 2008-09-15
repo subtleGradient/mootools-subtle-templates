@@ -157,4 +157,13 @@ describe('SubtleTemplate', {
 		value_of( template.get('id') ).should_be( 'subtletemplate' )
 		value_of( fred.element.get('id') ).should_be( 'subtletemplateflarm' )
 	}
+
+	,"shouldn't use the original id attribute": function(){
+		
+		var fred = new MyDiv({ data1:'fred', extraclass:'myextraclass' }).inject( demo );
+		value_of( fred.element.get('text') ).should_match( 'fred' );
+		
+		value_of( template.get('id') ).should_be( 'subtletemplate' )
+		value_of( fred.element.get('id') ).should_not_be( 'subtletemplate' )
+	}
 });

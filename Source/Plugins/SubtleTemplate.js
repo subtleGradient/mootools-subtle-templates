@@ -106,7 +106,7 @@ SubtleTemplate.Template = new Class({
 		this.element.set({
 			'html': this.options.html.substitute(this.options.data),
 			'class':(this.options.data.html_class||this.options['class']||'').substitute(this.options.data),
-			'id':   (this.options.data.html_id||this.options.id||'').substitute(this.options.data)
+			'id':   (this.options.data.html_id||'').substitute(this.options.data)
 		});
 		
 		return this.fireEvent("populate");
