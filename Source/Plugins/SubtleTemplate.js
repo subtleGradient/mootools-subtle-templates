@@ -101,8 +101,6 @@ SubtleTemplate.Template = new Class({
 		this.setOptions(options);
 		this.setOptions({ data:data });
 		
-		try{console.log( this.options )}catch(e){};
-		
 		this.element.set({
 			'html': this.options.html.substitute(this.options.data),
 			'id':   this.options.data.id,
