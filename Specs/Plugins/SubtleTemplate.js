@@ -13,7 +13,7 @@ describe('SubtleTemplate', {
 		
 		template = new Element('div',{
 			id:'subtletemplate',
-			'class':'super duper',
+			'class':'super duper {extraclass}',
 			html:'<ul>\
 					<li><b>{data1}</b></li>\
 					<li><i>{data2}</i></li>\
@@ -142,7 +142,19 @@ describe('SubtleTemplate', {
 		var fred = new MyDiv({ data1:'fred' }).inject( demo );
 		value_of( fred.element.get('text') ).should_match( 'fred' );
 		
-		value_of( template.get('class') ).should_be( 'super duper' )
+		value_of( template.get('class') ).should_be( 'super duper {extraclass}' )
 		value_of( fred.element.get('class') ).should_be( 'super duper' )
+	}
+
+	,'should substitute class and id': function(){
+		
+		var fred = new MyDiv({ data1:'fred', extraclass:'myextraclass', html_id:'subtletemplate{id}', id:'flarm' }).inject( demo );
+		value_of( fred.element.get('text') ).should_match( 'fred' );
+		
+		value_of( template.get('class') ).should_be( 'super duper {extraclass}' )
+		value_of( fred.element.get('class') ).should_be( 'super duper myextraclass' )
+		
+		value_of( template.get('id') ).should_be( 'subtletemplate' )
+		value_of( fred.element.get('id') ).should_be( 'subtletemplateflarm' )
 	}
 });

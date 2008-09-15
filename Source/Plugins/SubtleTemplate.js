@@ -15,6 +15,7 @@ var SubtleTemplate = new Class({
 	
 	options:{
 		tag:     'div',
+		id:      '',
 		'class': '',
 		html:    '{html}',
 		data:    {}
@@ -60,6 +61,7 @@ var SubtleTemplate = new Class({
 		this.setOptions({
 			parent: element.parentNode ? $(element.parentNode) : null,
 			tag:    element.get('tag'),
+			id:     element.get('id'),
 			'class':element.get('class'),
 			html:   element.get('html').replace(/ ?HACKED_FOR_IE/g,'')
 		});
@@ -88,23 +90,23 @@ SubtleTemplate.Template = new Class({
 	
 	initialize: function(data, options){
 		this.constructor.kids.push(this);
-		this.setOptions(options);
-		this.setOptions({ data:data });
+		if(options) this.setOptions(options);
+		if(data)    this.setOptions({ data:data });
 		
-		this.element = new Element(this.options.tag, { 'class': this.options['class'] });
-		this.populate(this.options.data);
+		this.element = new Element(this.options.tag);
+		this.populate();
 		
 		return this.fireEvent("initialize");
 	},
 	
 	populate: function(data, options){
-		this.setOptions(options);
-		this.setOptions({ data:data });
+		if(options) this.setOptions(options);
+		if(data)    this.setOptions({ data:data });
 		
 		this.element.set({
 			'html': this.options.html.substitute(this.options.data),
-			'id':   this.options.data.id,
-			'class':this.options.data['class'] || this.options['class']
+			'class':(this.options.data.html_class||this.options['class']||'').substitute(this.options.data),
+			'id':   (this.options.data.html_id||this.options.id||'').substitute(this.options.data)
 		});
 		
 		return this.fireEvent("populate");
