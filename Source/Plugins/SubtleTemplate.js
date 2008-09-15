@@ -74,8 +74,7 @@ var SubtleTemplate = new Class({
 		if($type(fn) != 'function') return this;
 		var element = new Element(this.options.tag, { 'class': this.options['class'], html: this.options.html });
 		
-		fn.run(this,element);
-		this.setElementOptions(element);
+		this.setElementOptions(fn.run(this,element) || element);
 		
 		this.kids.each(function(kid){ kid.populate({}, this.options); },this);
 		

@@ -75,6 +75,7 @@ describe('SubtleTemplate', {
 		fred.populate({ data1:'derf is not my name' });
 		value_of( fred.element.getElement('input').get('value') ).should_match( 'derf is not my name' );
 	}
+
 	,'should allow you to update the html of the template and rebuild everything': function(){
 		
 		var fred = new MyDiv({ data1:'fred' }).inject( demo );
@@ -84,10 +85,30 @@ describe('SubtleTemplate', {
 		value_of( fred1.element.get('text') ).should_match( 'fred1' );
 		
 		MyDiv.updateTemplate(function(templateClassInstance){
-			try{console.log( this )}catch(e){};
 			this.getElement('li').set('html','{data1}{data1}');
 		});
 		value_of( fred.element.get('text') ).should_match( 'fredfred' );
+		value_of( fred1.element.get('text') ).should_match( 'fred1fred1' );
+		
+	}
+
+	,'should allow you to update the html to any random tag, even a new one': function(){
+		
+		var fred = new MyDiv({ data1:'fred' }).inject( demo );
+		value_of( fred.element.get('text') ).should_match( 'fred' );
+		value_of( fred.element.getElement('*').get('tag') ).should_be( 'ul' );
+		
+		var fred1 = new MyDiv({ data1:'fred1' }).inject( demo );
+		value_of( fred1.element.get('text') ).should_match( 'fred1' );
+		value_of( fred1.element.getElement('*').get('tag') ).should_be( 'ul' );
+		
+		MyDiv.updateTemplate(function(templateClassInstance){
+			return new Element('div',{html:'{data1}{data1}'})
+		});
+		value_of( fred.element.getElement('*') ).should_be( null );
+		value_of( fred.element.get('text') ).should_match( 'fredfred' );
+		
+		value_of( fred.element.getElement('*') ).should_be( null );
 		value_of( fred1.element.get('text') ).should_match( 'fred1fred1' );
 		
 	}
