@@ -64,15 +64,25 @@
 	}, 1000);
 	
 	// Can handle periodically updating
+	MyDiv.updateTemplate(function(){
+		new Element('li', {'html':'Total time to update 1000 times: <ins>{data4}</ins> seconds'}).inject(this.getElement('ul'));
+	});
+	
+	var d = new Date();
 	var populate_i = 0;
 	var populate_p = (function(){
 		div2.populate({
-			"data1": new Date(),
+			"data1": d,
 			"data2": populate_i++,
-			"data3": 'woot'
+			"data3": new Date(),
+			"data4": (new Date()-d)/1000
 		});
-		if(populate_i > 1000)
+		if(populate_i > 1000){
 			$clear(populate_p);
+			MyDiv.updateTemplate(function(){
+				new Element('li', {'html':'This is not a performance benchmark by any stretch ;)'}).inject(this.getElement('ul'));
+			});
+		}
 	}).periodical(1);
 
 });</script>
@@ -85,7 +95,7 @@
 </p> -->
 <script type="text/javascript" charset="utf-8"> window.addEvent('domready',function(){
 
-	var MyTr = new SubtleTemplate($('template2'));
+	MyTr = new SubtleTemplate($('template2'));
 
 	tr1 = new MyTr({
 		"data1": "Created",
@@ -122,9 +132,15 @@
 <!-- <h4>Demo4</h4> -->
 <!-- <p>Update template after it has been created and populated and stuff</p> -->
 <script type="text/javascript" charset="utf-8"> window.addEvent('domready',function(){
-
-	// tr1.dad.updateTemplate
-
+	
+	setTimeout(function(){
+		
+		MyTr.updateTemplate(function(){
+			new Element('td', {'html':'Demo4: <strike>{data2}</strike> Dynamically updated the template later'}).inject(this,'top');
+		});
+		
+	}, 1000);
+	
 });</script>
 </body>
 </html>

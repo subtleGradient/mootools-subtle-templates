@@ -35,7 +35,10 @@ var SubtleTemplate = new Class({
 		this.template = new Class({ Extends:SubtleTemplate.Template });
 		
 		this.template.prototype.options = this.options;
-		this.template.prototype.dad = this;
+		this.template.prototype.template = this.template;
+		this.template.kids = this.kids;
+		this.template.updateTemplate = this.updateTemplate.bind(this);
+		
 		return this.template;
 	},
 	
@@ -87,7 +90,7 @@ SubtleTemplate.Template = new Class({
 	Implements: [Options, Events],
 	
 	initialize: function(data, options){
-		this.dad.kids.push(this);
+		this.template.kids.push(this);
 		this.setOptions(options);
 		this.setOptions({ data:data });
 		
