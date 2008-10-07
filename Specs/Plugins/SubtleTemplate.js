@@ -166,4 +166,18 @@ describe('SubtleTemplate', {
 		value_of( template.get('id') ).should_be( 'subtletemplate' )
 		value_of( fred.element.get('id') ).should_not_be( 'subtletemplate' )
 	}
+	,"should keep additional classes when repopulated": function(){
+		
+		// Start with class="one{one} two{two} three{three}"
+		// data = {one:1,two:2,three:3}
+		// populate
+		// class should be "one1 two2 three3"
+		// Add class "four4"
+		// populate
+		// class should be "one1 two2 three3 four4"
+		// Change data to {one:4,two:5,three:6}
+		// populate
+		// class should be "one4 two5 three6 four4"
+		
+	}
 });
