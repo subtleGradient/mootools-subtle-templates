@@ -137,13 +137,13 @@ describe('SubtleTemplate', {
 		
 	}
 
-	,'should keep its class and id when used as a template': function(){
+	,'should keep its class when used as a template': function(){
 		
 		var fred = new MyDiv({ data1:'fred' }).inject( demo );
 		value_of( fred.element.get('text') ).should_match( 'fred' );
 		
 		value_of( template.get('class') ).should_be( 'super duper {extraclass}' )
-		value_of( fred.element.get('class') ).should_be( 'super duper' )
+		value_of( fred.element.get('class') ).should_be( 'super duper ' )
 	}
 
 	,'should substitute class and id': function(){
@@ -156,6 +156,11 @@ describe('SubtleTemplate', {
 		
 		value_of( template.get('id') ).should_be( 'subtletemplate' )
 		value_of( fred.element.get('id') ).should_be( 'subtletemplateflarm' )
+		
+		fred.populate({ data1:'fred2', extraclass:'myextraclass2', html_id:'subtletemplate{id}2', id:'flarm2' });
+		value_of( fred.element.get('text') ).should_match( 'fred2' );
+		value_of( fred.element.get('class') ).should_be( 'super duper myextraclass2' )
+		value_of( fred.element.get('id') ).should_be( 'subtletemplateflarm22' )
 	}
 
 	,"shouldn't use the original id attribute": function(){
