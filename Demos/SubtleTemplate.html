@@ -142,5 +142,18 @@
 	}, 1000);
 	
 });</script>
+
+
+<!-- <h4>Demo5</h4> -->
+<!-- <p>Update template after it has been created and populated and stuff</p> -->
+<script type="text/javascript" charset="utf-8"> window.addEvent('domready',function(){
+	
+	var myExistingElement = new Element('div', { html:'myExistingElement' }).inject(document.body);
+	
+	setTimeout(function(){
+		var myExistingElementTemplated = new MyDiv({ data1:'myExistingElementTemplated' }, { element:myExistingElement });
+	}, 1000);
+	
+});</script>
 </body>
 </html>

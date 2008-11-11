@@ -9,7 +9,7 @@ License:
 describe('SubtleTemplate', {
 
 	'before all': function(){
-		new Element('div', {id:'subtletemplate_demo'}).inject(document.body);
+		demo = new Element('div', {id:'subtletemplate_demo'}).inject(document.body);
 		
 		template = new Element('div',{
 			id:'subtletemplate',
@@ -19,7 +19,10 @@ describe('SubtleTemplate', {
 					<li><i>{data2}</i></li>\
 					<li><u>{data3}</u></li>\
 				</ul>'
-		}).inject($('subtletemplate_demo'));
+		}).inject(demo);
+		
+		MyDiv = new SubtleTemplate(template);
+		
 		
 		new Element('div',{
 			id:'mydiv_with_attributes',
@@ -28,12 +31,9 @@ describe('SubtleTemplate', {
 					<li><input type="text" value="{data2}" /></li>\
 					<li><input type="text" value="{data3}" /></li>\
 				</ul>'
-		}).inject($('subtletemplate_demo'));
+		}).inject(demo);
 		
 		MyDiv_with_attributes = new SubtleTemplate($('mydiv_with_attributes'));
-		
-		demo = $('subtletemplate_demo');
-		MyDiv = new SubtleTemplate(template);
 	}
 
 	,'after all': function(){
@@ -183,6 +183,17 @@ describe('SubtleTemplate', {
 		// Change data to {one:4,two:5,three:6}
 		// populate
 		// class should be "one4 two5 three6 four4"
+		
+	}
+	,"should bless an existing element if provided": function(){
+		
+		// Make a new normal html element
+		var myExistingElement = new Element('div',{ html:'myExistingElement' });
+		value_of( myExistingElement.get('html') ).should_be( 'myExistingElement' );
+		
+		// Blessing it should populate() just like creating a new one
+		var fred = new MyDiv({ data1:'myExistingElement is populated!' }, { element:myExistingElement });
+		value_of( myExistingElement.get('html') ).should_match( 'myExistingElement is populated!' );
 		
 	}
 });

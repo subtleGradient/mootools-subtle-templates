@@ -6,7 +6,7 @@ License:
 	MIT-style license.
 
 Copyright:
-	Copyright (c) 2006-2007 [Thomas Aylott](http://subtlegradient.com/).
+	Copyright (c) 2006-2007 [Thomas Aylott](subtlegradient.com).
 
 */
 var SubtleTemplate = new Class({
@@ -90,10 +90,14 @@ SubtleTemplate.Template = new Class({
 	
 	initialize: function(data, options){
 		this.constructor.kids.push(this);
-		if(options) this.setOptions(options);
-		if(data)    this.setOptions({ data:data });
 		
-		this.element = new Element(this.options.tag);
+		if(options){
+			this.element = options.element; delete options.element;
+			this.setOptions(options);
+		}
+		if(data) this.setOptions({ data:data });
+		
+		this.element = this.element || new Element(this.options.tag);
 		this.populate();
 		
 		return this.fireEvent("initialize");
