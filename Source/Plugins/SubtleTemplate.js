@@ -17,8 +17,7 @@ var SubtleTemplate = new Class({
 		tag:     'div',
 		id:      '',
 		'class': '',
-		html:    '{html}',
-		data:    {}
+		html:    '{html}'
 	},
 	
 	kids:[],
@@ -33,12 +32,20 @@ var SubtleTemplate = new Class({
 		else
 			this.setOptions(options);
 		
-		this.template = new Class({ Extends:SubtleTemplate.Template, options:this.options });
+		this.TemplateClass = new Class({
+			
+			Extends: SubtleTemplate.Template,
+			
+			data: {}
+			
+		});
 		
-		this.template.kids = this.kids;
-		this.template.updateTemplate = this.updateTemplate.bind(this);
+		this.TemplateClass.instance = this;
+		this.TemplateClass.kids = this.kids;
+		this.TemplateClass.options = this.options;
+		this.TemplateClass.updateTemplate = this.updateTemplate.bind(this);
 		
-		return this.template;
+		return this.TemplateClass;
 	},
 	
 	setElementOptions: function(element){
@@ -73,12 +80,14 @@ var SubtleTemplate = new Class({
 	},
 	
 	updateTemplate: function(fn){
+		try{console.log( "updateTemplate", fn );}catch(e){};
 		if($type(fn) != 'function') return this;
 		var element = new Element(this.options.tag, { 'class': this.options['class'], html: this.options.html });
 		
 		this.setElementOptions(fn.run(this,element) || element);
 		
-		this.kids.each(function(kid){ kid.populate({}, this.options); },this);
+		try{console.log( pp(this.kids) );}catch(e){};
+		this.kids.each(function(kid){ if (kid.populate) kid.populate({}, this.options); },this);
 		
 		return this;
 	}
@@ -86,39 +95,67 @@ var SubtleTemplate = new Class({
 });
 SubtleTemplate.Template = new Class({
 	
-	Implements: [Options, Events],
+	Implements: Events,
+	
+	data:{},
 	
 	initialize: function(data, options){
+		if($type(data)=='array' && /^(object|hash)$/.test($type(data[0]))){
+			var instances = [];
+			data.each(function(dataSet,index){
+				instances[index] = new this.constructor(dataSet, options);
+			}, this);
+			return instances;
+		}
+		
 		this.constructor.kids.push(this);
 		
 		if(options){
 			this.element = options.element; delete options.element;
-			this.setOptions(options);
+			this.constructor.instance.setOptions(options);
 		}
-		if(data) this.setOptions({ data:data });
+		if(data) this.data = $merge(this.data, data);
 		
-		this.element = this.element || new Element(this.options.tag);
+		this.element = this.element || new Element(this.constructor.instance.options.tag);
 		this.populate();
 		
 		return this.fireEvent("initialize");
 	},
 	
 	populate: function(data, options){
-		if(options) this.setOptions(options);
-		if(data)    this.setOptions({ data:data });
+		// try{console.log( data, options );}catch(e){};
+		this.constructor.instance.setOptions(options);
+		if(data) this.data = $merge(this.data, data);
 		
 		this.element.set({
-			'html': this.options.html.substitute(this.options.data),
-			'class':(this.options.data.html_class||this.options['class']||'').substitute(this.options.data),
-			'id':   (this.options.data.html_id||'').substitute(this.options.data)
+			'html': this.constructor.instance.options.html.substitute(this.data),
+			'class':(this.data.html_class||this.constructor.instance.options['class']||'').substitute(this.data),
+			'id':   (this.data.html_id||'').substitute(this.data)
 		});
-		
 		return this.fireEvent("populate");
 	},
 	
+	toElement: function(){
+		return this.element;
+	},
+	
 	inject: function(parent){
-		this.element.inject( parent||this.options.parent );
+		this.element.inject( parent || this.parent || this.constructor.instance.options.parent );
 		return this.fireEvent("inject");
 	}
 	
 });
+
+
+// SubtleTemplate
+// SubtleTemplate.Template
+// SubtleTemplate.Template.Subclass
+// 
+// template: SubtleTemplate instance
+// rows: SubtleTemplate.Template.Subclass instance
+
+// Row = new SubtleTemplate();
+// row1 = new Row();
+
+// row1.template.TemplateClass == Row
+

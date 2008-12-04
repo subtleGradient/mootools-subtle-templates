@@ -1,0 +1,26 @@
+body{
+	background: #fff;
+}
+script.demo {
+	display: block;
+	white-space: pre;
+	font-family: monaco, monospace;
+	font-size: 9px;
+	line-height:11px;
+	background: #111;
+	color:#999;
+	border:1px solid #eee;
+	border-right-color:#bbb;
+	border-bottom-color:#aaa;
+	padding:1em;
+	margin:1em;
+	overflow:auto;
+}
+
+table,td,th{
+	border:1px solid #ccc;
+	border-collapse: collapse;
+}
+th,td{
+	padding:0.25em;
+}

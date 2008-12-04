@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+	<title>SubtleTemplate</title>
+	<link rel="stylesheet" href="demo.css" type="text/css" media="screen" title="no title" charset="utf-8" />
+</head>
+<body>
+<script type="text/javascript" src="mootools.js"> </script>
+<script src="../Source/Plugins/SubtleTemplate.js" type="text/javascript" charset="utf-8"></script>
+
+
+<h4>Update template instantly!</h4>
+<p>Update template after it has been created and populated and stuff.</p>
+<input type="button" value="Add Rows!" onclick="add_rows()" />
+<p>It automatically updates all its instances with the new template.</p>
+<input type="button" value="Reverse!" onclick="reverse_columns()" />
+<p>Try editing the template. Add "{id}" to the end and see what happens.</p>
+<input type="text" value="Modify Template HTML as you type!" onkeyup="update_template_html(this.value)" onfocus="this.value=MyTr.options['html'].replace(/\s+/g,' ')" style="width:80%" />
+
+<style type="text/css" media="screen">
+	#demo ol li * {padding:0.5em;}
+</style>
+
+<div id="demo">
+
+	<ol>
+		<li id="template2">
+			<i>{id}</i><b>{date}</b><u>{rand}</u><q>{col4}</q>
+		</li>
+	</ol>
+
+</div>
+
+
+
+<script type="text/javascript" class="demo">
+function reverse_columns(){
+	
+	MyTr.updateTemplate(function(){
+		this.adopt(this.getElements('*').reverse());
+	});
+	
+}
+</script>
+<script type="text/javascript" class="demo">
+function update_template_html(html){
+	
+	MyTr.updateTemplate(function(){
+		this.set('html', html);
+	});
+	
+}
+</script>
+<script type="text/javascript" charset="utf-8" class="demo">
+var count = 0;
+
+// Create Template based on the #template2 element
+MyTr = new SubtleTemplate($('template2'));
+
+// Prepopulate some random data to get some rows
+function add_rows(){
+	
+	MyTr.options['parent'].adopt(new MyTr([
+		{date:new Date().getMilliseconds(), id:++count, rand:Math.random(), col4:'Col4'},
+		{date:new Date().getMilliseconds(), id:++count, rand:Math.random(), col4:'Col4'},
+		{date:new Date().getMilliseconds(), id:++count, rand:Math.random(), col4:'Col4'}
+	]));
+	
+}
+
+window.addEvent('domready', add_rows);
+</script>
+</body>
+</html>

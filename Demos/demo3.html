@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+	<title>SubtleTemplate</title>
+	<link rel="stylesheet" href="demo.css" type="text/css" media="screen" title="no title" charset="utf-8" />
+</head>
+<body>
+<script type="text/javascript" src="mootools.js"> </script>
+<script src="../Source/Plugins/SubtleTemplate.js" type="text/javascript" charset="utf-8"></script>
+
+
+<h3>Demo3</h3>
+<p>Update data later, crappy performance test</p>
+<input type="button" value="Execute!" onclick="window.fireEvent('demo')" />
+
+
+
+<div id="demo">
+	
+	<div id="template">
+		<ul>
+			<li>Elapsed time: <strong>{elapsed_time}</strong></li>
+			<li>Number of times populated: <strong>{times_populated}</strong> Seconds</li>
+		</ul>
+	</div>
+	
+</div>
+
+
+
+<script type="text/javascript" charset="utf-8" class="demo">
+// Create the template
+var MyDiv = new SubtleTemplate($('template'));
+
+</script>
+<script type="text/javascript" charset="utf-8" class="demo"> window.addEvent('demo',function(){
+	
+	// Instantiate the template
+	var div2 = new MyDiv().inject($('demo'));
+	
+	var d = new Date();
+	var populate_i = 0;
+	var populate_p = (function(){
+		
+		elapsed_time = (new Date()-d)/1000;
+		
+		div2.populate({
+			"times_populated": populate_i++,
+			"elapsed_time": elapsed_time
+		});
+		
+		if (elapsed_time > 10) $clear(populate_p);
+		
+	}).periodical(1);
+	
+});</script>
+</body>
+</html>

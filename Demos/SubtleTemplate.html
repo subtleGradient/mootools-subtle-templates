@@ -35,7 +35,8 @@
 
 <!-- <h2>Demo1</h2> -->
 <!-- <p>Simple Usage</p> -->
-<script type="text/javascript" charset="utf-8"> window.addEvent('domready',function(){
+<input type="button" value="Execute!" onclick="window.fireEvent('demo')" />
+<script type="text/javascript" charset="utf-8" class="demo"> window.addEvent('demo',function(){
 
 	MyDiv = new SubtleTemplate($('template'));
 	
@@ -52,7 +53,8 @@
 
 <!-- <h3>Demo2</h3> -->
 <!-- <p>Update data later</p> -->
-<script type="text/javascript" charset="utf-8"> window.addEvent('domready',function(){
+<input type="button" value="Execute!" onclick="window.fireEvent('demo')" />
+<script type="text/javascript" charset="utf-8" class="demo"> window.addEvent('demo',function(){
 
 	var div2 = new MyDiv({ data1:'loading…' }).inject($('demo'));
 	setTimeout( function(){ 
@@ -93,7 +95,8 @@
 <!-- <p>No need to explicitly define a parent<br />
 	it'll inject into the same parent as the template element by default
 </p> -->
-<script type="text/javascript" charset="utf-8"> window.addEvent('domready',function(){
+<input type="button" value="Execute!" onclick="window.fireEvent('demo')" />
+<script type="text/javascript" charset="utf-8" class="demo"> window.addEvent('demo',function(){
 
 	MyTr = new SubtleTemplate($('template2'));
 
@@ -102,7 +105,8 @@
 		"data2": "First",
 		"data3": "but injected last"
 	});
-
+	
+	// Create Multiple Instances
 	new MyTr({
 		"data1": "Lorem",
 		"data2": "ipsum",
@@ -123,7 +127,19 @@
 		"data2": "Last",
 		"data3": "in source"
 	}).inject();
-
+	
+	////    OR    ////
+	
+	// Create multiple instances
+	MyTr.getOption('parent').adopt(
+		new MyTr([
+			{"data1":"Lorem","data2":"ipsum","data3":"dolor"},
+			{"data1":"Lorem","data2":"ipsum","data3":"dolor"},
+			{"data1":"Lorem","data2":"ipsum","data3":"dolor"},
+			{"data1":"Created","data2":"Last","data3":"in source"}
+		])
+	);
+	
 	tr1.inject();
 
 });</script>
@@ -131,7 +147,8 @@
 
 <!-- <h4>Demo4</h4> -->
 <!-- <p>Update template after it has been created and populated and stuff</p> -->
-<script type="text/javascript" charset="utf-8"> window.addEvent('domready',function(){
+<input type="button" value="Execute!" onclick="window.fireEvent('demo')" />
+<script type="text/javascript" charset="utf-8" class="demo"> window.addEvent('demo',function(){
 	
 	setTimeout(function(){
 		
@@ -146,7 +163,8 @@
 
 <!-- <h4>Demo5</h4> -->
 <!-- <p>Update template after it has been created and populated and stuff</p> -->
-<script type="text/javascript" charset="utf-8"> window.addEvent('domready',function(){
+<input type="button" value="Execute!" onclick="window.fireEvent('demo')" />
+<script type="text/javascript" charset="utf-8" class="demo"> window.addEvent('demo',function(){
 	
 	var myExistingElement = new Element('div', { html:'myExistingElement' }).inject(document.body);
 	
@@ -154,6 +172,22 @@
 		var myExistingElementTemplated = new MyDiv({ data1:'myExistingElementTemplated' }, { element:myExistingElement });
 	}, 1000);
 	
+});</script>
+
+
+<!-- <h4>Demo6</h4> -->
+<!-- <p>Create multiple instances when passing in multiple datasets</p> -->
+<input type="button" value="Execute!" onclick="window.fireEvent('demo')" />
+<script type="text/javascript" charset="utf-8" class="demo"> window.addEvent('demo',function(){
+	// Pass in an array whose 0th item is an object and it'll create multiple instances!
+	// It'll then return all those instances in an array
+	
+	var myCollectionOfMyDivInstances = new MyTr([{ data1:'First DataSet' }, { data1:'Second DataSet' }, { data1:'You can create multiple rows simply be passing in an array instead of an object!' }]);
+	
+	new Element('table')
+		.inject($('demo'))
+		.adopt(myCollectionOfMyDivInstances)
+	;
 });</script>
 </body>
 </html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+	<title>SubtleTemplate</title>
+	<link rel="stylesheet" href="demo.css" type="text/css" media="screen" title="no title" charset="utf-8" />
+</head>
+<body>
+<script type="text/javascript" src="mootools.js"> </script>
+<script src="../Source/Plugins/SubtleTemplate.js" type="text/javascript" charset="utf-8"></script>
+
+
+<h4>Create multiple instances</h4>
+<p>Create multiple instances when passing in multiple datasets</p>
+<input type="button" value="Execute!" onclick="window.fireEvent('demo')" />
+
+
+<div id="demo">
+	<table>
+		<tbody>
+			<tr id="template2">
+				<td><b>{data1}</b></td>
+				<td><i>{data2}</i></td>
+				<td><u>{data3}</u></td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+
+<script type="text/javascript" charset="utf-8" class="demo"> window.addEvent('demo',function(){
+	// Pass in an array whose 0th item is an object and it'll create multiple instances!
+	// It'll then return all those instances in an array
+	
+	var myCollectionOfMyDivInstances = new MyTr([{ data1:'First DataSet' }, { data1:'Second DataSet' }, { data1:'You can create multiple rows simply be passing in an array instead of an object!' }]);
+	
+	new Element('table')
+		.inject($('demo'))
+		.adopt(myCollectionOfMyDivInstances)
+	;
+});</script>
+</body>
+</html>

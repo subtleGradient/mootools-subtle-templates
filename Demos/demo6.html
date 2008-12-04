@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+	<title>SubtleTemplate</title>
+	<link rel="stylesheet" href="demo.css" type="text/css" media="screen" title="no title" charset="utf-8" />
+</head>
+<body>
+<script type="text/javascript" src="mootools.js"> </script>
+<script src="../Source/Plugins/SubtleTemplate.js" type="text/javascript" charset="utf-8"></script>
+
+
+<h4>Demo5</h4>
+<p>Update template after it has been created and populated and stuff</p>
+<input type="button" value="Execute!" onclick="window.fireEvent('demo')" />
+
+
+<div id="demo">
+	<div id="template">
+		<ul>
+			<li><b>{data1}</b></li>
+			<li><i>{data2}</i></li>
+			<li><u>{data3}</u></li>
+		</ul>
+	</div>
+	
+	<div class="myexistingelement">myExistingElement 1</div>
+	<div class="myexistingelement">myExistingElement 2</div>
+	<div class="myexistingelement">myExistingElement 3</div>
+	<div class="myexistingelement">myExistingElement 4</div>
+	<div class="myexistingelement">myExistingElement 5</div>
+	<div class="myexistingelement">myExistingElement 6</div>
+	<div class="myexistingelement">myExistingElement 7</div>
+	<div class="myexistingelement">myExistingElement 8</div>
+	<div class="myexistingelement">myExistingElement 9</div>
+	<div class="myexistingelement">myExistingElement 10</div>
+	
+</div>
+
+
+<script type="text/javascript" charset="utf-8">
+// Create the template
+var MyDiv = new SubtleTemplate($('template'));
+
+</script>
+<script type="text/javascript" charset="utf-8" class="demo"> window.addEvent('demo',function(){
+	
+	var myExistingElement = $('demo').getElement('div.myexistingelement');
+	var myExistingElementTemplated = new MyDiv({ data1:'myExistingElementTemplated', data2:new Date() }, { element:myExistingElement });
+	
+});</script>
+</body>
+</html>

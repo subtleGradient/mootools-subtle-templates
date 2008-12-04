@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+	<title>SubtleTemplate</title>
+	<link rel="stylesheet" href="demo.css" type="text/css" media="screen" title="no title" charset="utf-8" />
+</head>
+<body>
+<script type="text/javascript" src="mootools.js"> </script>
+<script src="../Source/Plugins/SubtleTemplate.js" type="text/javascript" charset="utf-8"></script>
+
+<h3>Create now, inject later</h3>
+<p>SubtleTemplates even works with table rows and stuff!</p>
+<p>No need to explicitly define a parent<br />
+	it'll inject into the same parent as the template element by default
+</p>
+<input type="button" value="Execute!" onclick="window.fireEvent('demo')" />
+
+
+<div id="demo">
+
+	<table>
+		<tbody>
+			<tr id="template2">
+				<td><b>{data1}</b></td>
+				<td><i>{data2}</i></td>
+				<td><u>{data3}</u></td>
+			</tr>
+		</tbody>
+	</table>
+	
+</div>
+
+<script type="text/javascript" charset="utf-8">
+// Init
+MyTr = new SubtleTemplate($('template2'));
+
+</script>
+<script type="text/javascript" charset="utf-8" class="demo"> window.addEvent('demo',function(){
+
+	tr_last = new MyTr({
+		"data1": "Created",
+		"data2": "First",
+		"data3": "but injected last"
+	});
+	
+	// Create one instance
+	new MyTr({
+		"data1": "Created",
+		"data2": "second",
+		"data3": "injected immediately"
+	})
+	// Inject it immediately
+	.inject();
+	
+	// or Create multiple instances
+	MyTr.getOption('parent').adopt(
+		new MyTr([
+			{data1:"Create",data2:"multiple",data3:"instances"},
+			{data1:"Create",data2:"multiple",data3:"instances"},
+			{data1:"Create",data2:"multiple",data3:"instances"},
+			{data1:"Create",data2:"multiple",data3:"instances"},
+			{data1:"Created",data2:"and then",data3:"adopted"}
+		])
+	);
+	
+	// Create one instance
+	new MyTr({"data1":"Created","data2":"Last","data3":"in source"}).inject();
+	
+	// Inject the first tr last!
+	tr_last.inject();
+
+});</script>
+</body>
+</html>
