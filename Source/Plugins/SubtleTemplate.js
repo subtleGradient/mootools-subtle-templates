@@ -66,11 +66,13 @@ var SubtleTemplate = new Class({
 		});
 		
 		this.setOptions({
-			parent: element.parentNode ? $(element.parentNode) : null,
 			tag:    element.get('tag'),
 			id:     element.get('id'),
 			'class':element.get('class'),
 			html:   element.get('html').replace(/ ?HACKED_FOR_IE/g,'')
+		});
+		element.getParent() && this.setOptions({
+			parent: element.getParent()
 		});
 		
 		element.dispose();
@@ -80,13 +82,11 @@ var SubtleTemplate = new Class({
 	},
 	
 	updateTemplate: function(fn){
-		try{console.log( "updateTemplate", fn );}catch(e){};
 		if($type(fn) != 'function') return this;
 		var element = new Element(this.options.tag, { 'class': this.options['class'], html: this.options.html });
 		
 		this.setElementOptions(fn.run(this,element) || element);
 		
-		try{console.log( pp(this.kids) );}catch(e){};
 		this.kids.each(function(kid){ if (kid.populate) kid.populate({}, this.options); },this);
 		
 		return this;
@@ -123,7 +123,6 @@ SubtleTemplate.Template = new Class({
 	},
 	
 	populate: function(data, options){
-		// try{console.log( data, options );}catch(e){};
 		this.constructor.instance.setOptions(options);
 		if(data) this.data = $merge(this.data, data);
 		
@@ -140,7 +139,7 @@ SubtleTemplate.Template = new Class({
 	},
 	
 	inject: function(parent){
-		this.element.inject( parent || this.parent || this.constructor.instance.options.parent );
+		this.element.inject( parent || this.parentNode || this.constructor.instance.options.parent );
 		return this.fireEvent("inject");
 	}
 	

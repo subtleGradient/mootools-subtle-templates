@@ -38,7 +38,8 @@ MyTr = new SubtleTemplate($('template2'));
 
 </script>
 <script type="text/javascript" charset="utf-8" class="demo"> window.addEvent('demo',function(){
-
+try{
+	
 	tr_last = new MyTr({
 		"data1": "Created",
 		"data2": "First",
@@ -55,7 +56,7 @@ MyTr = new SubtleTemplate($('template2'));
 	.inject();
 	
 	// or Create multiple instances
-	MyTr.getOption('parent').adopt(
+	MyTr.options['parent'].adopt(
 		new MyTr([
 			{data1:"Create",data2:"multiple",data3:"instances"},
 			{data1:"Create",data2:"multiple",data3:"instances"},
@@ -71,6 +72,9 @@ MyTr = new SubtleTemplate($('template2'));
 	// Inject the first tr last!
 	tr_last.inject();
 
+}catch(e){
+	console.log(e);
+}
 });</script>
 </body>
 </html>
