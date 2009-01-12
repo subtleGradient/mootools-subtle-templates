@@ -14,6 +14,7 @@ var SubtleTemplate = new Class({
 	Implements: Options,
 	
 	options:{
+		subTemplateClass:'SubtleTemplate',
 		tag:     'div',
 		id:      '',
 		'class': '',
@@ -52,6 +53,8 @@ var SubtleTemplate = new Class({
 		if(!element) return this.fireEvent('error');
 		element = $(element);
 		
+		this.parseSubTemplates(element);
+		
 		if(Browser.Engine.trident)element.getElements('*').each(function(el){
 			// Edit this list to include 
 			// all attribute names whose value you may set in your html templates
@@ -77,6 +80,17 @@ var SubtleTemplate = new Class({
 		element = null;
 		
 		return this;
+	},
+	
+	subTemplates:{},
+	parseSubTemplates: function(element){
+		var subTemplateElements = element.getElements('.'+this.options.subTemplateClass);
+		subTemplateElements.each(function(subTemplateElement){
+			var key = subTemplateElement.removeClass(this.options.subTemplateClass).get('class');
+			if (!key) return;
+			new Element('span',{ 'class':this.options.subTemplateClass+'-'+key.camelCase() }).inject(subTemplateElement, 'before');
+			this.subTemplates[key] = new SubtleTemplate(subTemplateElement);
+		},this);
 	},
 	
 	updateTemplate: function(fn){
@@ -132,7 +146,27 @@ SubtleTemplate.Template = new Class({
 			'class':(this.data.html_class||this.constructor.instance.options['class']||'').substitute(this.data),
 			'id':   (this.data.html_id||'').substitute(this.data)
 		});
+		
+		this.populateSubTemplates(this.data);
+		
 		return this.fireEvent("populate");
+	},
+	
+	populateSubTemplates: function(data){
+		var self = this;
+		Hash.each(this.constructor.instance.subTemplates, function(subTemplate,key){
+			
+			try{console.log( self.constructor.instance.options.subTemplateClass+'-'+key.camelCase() );}catch(e){};
+			var elementForKey = self.element.getElement('.'+ self.constructor.instance.options.subTemplateClass+'-'+key.camelCase() )
+			
+			if ($type(data[key])=='array') data[key].each(function(dataForKey){
+				
+				new subTemplate(dataForKey).element.inject(elementForKey, 'before');
+				
+			});
+			
+			elementForKey.dispose();
+		});
 	},
 	
 	toElement: function(){

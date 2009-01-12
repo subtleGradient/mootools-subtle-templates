@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+	<title>SubtleTemplate</title>
+	<link rel="stylesheet" href="demo.css" type="text/css" media="screen" title="no title" charset="utf-8" />
+</head>
+<body>
+<script type="text/javascript" src="mootools.js"> </script>
+<script src="../Source/Plugins/SubtleTemplate.js" type="text/javascript" charset="utf-8"></script>
+
+<h1>sub templates</h1>
+<p>Simply add the classname <code>SubtleTemplate</code> to any element that should serve as a sub-template.</p>
+<p>That node and all of its children will be used as a new template for whatever key you add after it. EG: <code>SubtleTemplate whatever_key</code></p>
+<p>
+	EG:
+	<script type="text/javascript" charset="utf-8" class="demo">
+	var DATA = {
+		name: "Main Data",
+		quantity: 123,
+		subdata:[
+			{ name:"Sub Data 1", quantity:10 },
+			{ name:"Sub Data 2", quantity:20 },
+			{ name:"Sub Data 3", quantity:30 }
+		]
+	}
+	
+	</script>
+</p>
+
+<input type="button" value="Add Rows!" onclick="add_rows()" />
+
+<style type="text/css" media="screen">
+	#demo ol li * {padding:0.5em;}
+</style>
+
+<div id="demo">
+
+	<ol>
+		<li id="template2">
+			<i>{name}</i><b>{quantity}</b>
+			<ol>
+				<li class="SubtleTemplate subdata">
+					<i>{name}</i><b>{quantity}</b><br />
+					<i>{subdata.name}</i><b>{subdata.quantity}</b>
+				</li>
+			</ol>
+		</li>
+	</ol>
+
+</div>
+
+
+<script type="text/javascript" charset="utf-8" class="demo">
+// Create Template based on the #template2 element
+MyTemplate = new SubtleTemplate($('template2'));
+
+// Prepopulate some random data to get some rows
+function add_rows(){
+	
+	new MyTemplate(DATA).inject($$('#demo ol')[0]);
+	
+}
+
+window.addEvent('domready', add_rows);
+</script>
+</body>
+</html>
