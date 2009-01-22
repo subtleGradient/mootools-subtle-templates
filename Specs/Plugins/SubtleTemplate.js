@@ -1,11 +1,3 @@
-/*
-Script: Selectors.Children.js
-	Specification Examples of Pseudo Selector :children.
-
-License:
-	MIT-style license.
-*/
-
 describe('SubtleTemplate', {
 
 	'before all': function(){
@@ -171,6 +163,7 @@ describe('SubtleTemplate', {
 		value_of( template.get('id') ).should_be( 'subtletemplate' )
 		value_of( fred.element.get('id') ).should_not_be( 'subtletemplate' )
 	}
+/*
 	,"should keep additional classes when repopulated": function(){
 		
 		// Start with class="one{one} two{two} three{three}"
@@ -185,6 +178,7 @@ describe('SubtleTemplate', {
 		// class should be "one4 two5 three6 four4"
 		
 	}
+*/
 	,"should bless an existing element if provided": function(){
 		
 		// Make a new normal html element
@@ -196,4 +190,33 @@ describe('SubtleTemplate', {
 		value_of( myExistingElement.get('html') ).should_match( 'myExistingElement is populated!' );
 		
 	}
+	,"should create sub templates when children of the template element include an that match the subtemplate classname": function(){
+		var DATA = {
+			masterName:'masterName',
+			children:[
+				{ childName:'childName1' },
+				{ childName:'childName2' },
+				{ childName:'childName3' }
+			]
+		};
+    	var masterTemplateElement = new Element('div',{html:'{masterName} <p SubtleTemplate="children">{childName}</p>'}).inject(demo);
+    	var MasterTemplate = new SubtleTemplate(masterTemplateElement);
+        var myMasterTemplate = new MasterTemplate(DATA).inject(demo);
+        
+        value_of( demo.getElements('p').length ).should_be(3);
+        
+        DATA.children.push({ childName:'childName4' });
+        myMasterTemplate.populate(DATA);
+        
+        value_of( demo.getElements('p').length ).should_be(4);
+        
+        delete DATA.children
+        myMasterTemplate.populate(DATA);
+        
+        value_of( DATA.children ).should_be_undefined();
+        value_of( demo.getElements('p').length ).should_be(0);
+	}
 });
+
+
+

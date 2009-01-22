@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>Source/Plugins/SubtleTemplate.js</string>
+	<string>Specs/Plugins/SubtleTemplate.js</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -179,6 +179,20 @@
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
 		</dict>
+		<key>Demos/demo8.html</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>1</integer>
+				<key>line</key>
+				<integer>76</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>4</integer>
+		</dict>
 		<key>Source/Plugins/SubtleTemplate.js</key>
 		<dict>
 			<key>caret</key>
@@ -191,7 +205,21 @@
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>76</integer>
+			<integer>0</integer>
+		</dict>
+		<key>Specs/Plugins/SubtleTemplate.js</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>53</integer>
+				<key>line</key>
+				<integer>216</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>142</integer>
 		</dict>
 	</dict>
 	<key>openDocuments</key>
@@ -206,9 +234,13 @@
 		<string>Demos/demo6.html</string>
 		<string>Demos/demo7.html</string>
 		<string>Source/Plugins/SubtleTemplate.js</string>
+		<string>Specs/Plugins/SubtleTemplate.js</string>
+		<string>Demos/demo8.html</string>
 	</array>
 	<key>showFileHierarchyDrawer</key>
 	<false/>
+	<key>showFileHierarchyPanel</key>
+	<true/>
 	<key>treeState</key>
 	<dict>
 		<key>mootools-subtle-templates</key>
@@ -220,6 +252,6 @@
 		</dict>
 	</dict>
 	<key>windowFrame</key>
-	<string>{{1920, 0}, {1396, 1200}}</string>
+	<string>{{524, 69}, {1396, 1109}}</string>
 </dict>
 </plist>

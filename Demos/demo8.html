@@ -26,6 +26,15 @@
 		]
 	}
 	
+	var DATA1 = {
+		masterName:'masterName',
+		children:[
+			{ childName:'childName1' },
+			{ childName:'childName2' },
+			{ childName:'childName3' },
+		]
+	};
+
 	</script>
 </p>
 
@@ -57,9 +66,14 @@
 MyTemplate = new SubtleTemplate($('template2'));
 
 // Prepopulate some random data to get some rows
+var demo = $('demo');
 function add_rows(){
 	
 	new MyTemplate(DATA).inject($$('#demo ol')[0]);
+	
+	var masterTemplateElement = new Element('div',{html:'{masterName} <p class="SubtleTemplate children">{childName}</p>'}).inject(demo);
+	var MasterTemplate = new SubtleTemplate(masterTemplateElement);
+	var myMasterTemplate = new MasterTemplate(DATA1).inject(demo);
 	
 }
 
