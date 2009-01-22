@@ -21,24 +21,24 @@
 		<tbody>
 			<tr id="template2">
 				<td><b>{data1}</b></td>
-				<td><i>{data2}</i></td>
-				<td><u>{data3}</u></td>
 			</tr>
 		</tbody>
 	</table>
 </div>
 
 
+<script type="text/javascript" charset="utf-8">
+// Init
+MyTr = new SubtleTemplate($('template2'));
+
+</script>
 <script type="text/javascript" charset="utf-8" class="demo"> window.addEvent('demo',function(){
 	// Pass in an array whose 0th item is an object and it'll create multiple instances!
 	// It'll then return all those instances in an array
 	
 	var myCollectionOfMyDivInstances = new MyTr([{ data1:'First DataSet' }, { data1:'Second DataSet' }, { data1:'You can create multiple rows simply be passing in an array instead of an object!' }]);
+	$$('#demo>table')[0].adopt(myCollectionOfMyDivInstances);
 	
-	new Element('table')
-		.inject($('demo'))
-		.adopt(myCollectionOfMyDivInstances)
-	;
 });</script>
 </body>
 </html>
