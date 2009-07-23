@@ -117,6 +117,20 @@ SubtleTemplate.Template = new Class({
 		if(data) this.data = $merge(this.data, data);
 		
 		this.element = this.element || new Element(this.constructor.instance.options.tag);
+		var tag = this.element.get('tag');
+		//table items must be in a table for .set('html') to work properly
+		var container, match = tag.match(/^(t[dhr]|tbody|tfoot|thead)$/i));
+		
+		if (match){
+			container = new Element('table');
+			var tag = match[1];
+			if (tag == 'td' || tag == 'th' || tag == 'tr'){
+				container = new Element('tbody').inject(container);
+				if (tag != 'tr') container = new Element('tr').inject(container);
+			}
+			container.adopt(this.element);
+		}
+		
 		this.populate();
 		
 		return this.fireEvent("initialize");
