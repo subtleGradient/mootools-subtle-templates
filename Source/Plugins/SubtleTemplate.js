@@ -119,7 +119,7 @@ SubtleTemplate.Template = new Class({
 		this.element = this.element || new Element(this.constructor.instance.options.tag);
 		var tag = this.element.get('tag');
 		//table items must be in a table for .set('html') to work properly
-		var container, match = tag.match(/^(t[dhr]|tbody|tfoot|thead)$/i));
+		var container, match = tag.match(/^(t[dhr]|tbody|tfoot|thead)$/i);
 		
 		if (match){
 			container = new Element('table');
