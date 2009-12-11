@@ -1,13 +1,19 @@
 /*
-Script: SubtleTemplate.js
-	MooTools - My Object Oriented JavaScript Tools.
+---
+provides: [SubtleTemplate]
+description: "Define templates in HTML. From Elements or Strings. Populate, re-populate, again and again super-fast. Modify templates AFTER you use them! Update all instances instantly."
 
-License:
-	MIT-style license.
+license: MIT-style
+author: Thomas Aylott
+copyright: Copyright © 2006–2009 Thomas Aylott
 
-Copyright:
-	Copyright (c) 2006-2007 [Thomas Aylott](subtlegradient.com).
-
+requires: 
+- core:1.2/Utils
+- core:1.2/Class
+- core:1.2/Events
+- core:1.2/Options
+- core:1.2/Element
+...
 */
 var SubtleTemplate = new Class({
 	
@@ -179,17 +185,3 @@ SubtleTemplate.Template = new Class({
 	}
 	
 });
-
-
-// SubtleTemplate
-// SubtleTemplate.Template
-// SubtleTemplate.Template.Subclass
-// 
-// template: SubtleTemplate instance
-// rows: SubtleTemplate.Template.Subclass instance
-
-// Row = new SubtleTemplate();
-// row1 = new Row();
-
-// row1.template.TemplateClass == Row
-
